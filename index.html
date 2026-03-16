@@ -11,39 +11,36 @@
         button { background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; }
         button:hover { background: #218838; }
         button:disabled { background: #6c757d; cursor: not-allowed; }
-        .matrix-container { height: 600px; border: 1px solid #ddd; margin: 20px 0; background: white; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background: #007bff; color: white; }
-        .coverage-low { background: #f8d7da; color: #721c24; }
-        .coverage-medium { background: #fff3cd; color: #856404; }
-        .coverage-high { background: #d4edda; color: #155724; }
+        .matrix-container { height: 600px; border: 1px solid #ddd; margin: 20px 0; background: white; overflow: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #007bff; color: white; position: sticky; top: 0; z-index: 10; }
+        .coverage-low { background: #f8d7da !important; color: #721c24; }
+        .coverage-medium { background: #fff3cd !important; color: #856404; }
+        .coverage-high { background: #d4edda !important; color: #155724; }
         .gaps { margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 6px; }
         .loading { text-align: center; padding: 40px; font-style: italic; color: #666; }
-        #autoLoadStatus { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .status { padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .tactic-row { background: #e9ecef; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🚀 MITRE ATT&CK SOC Assessment Tool</h1>
-        <p>Auto-loads enterprise-attack.json → Log Analysis → Coverage Mapping → Gap Identification</p>
+        <p>Auto-loads enterprise-attack.json → Custom MITRE Matrix → SOC Gap Analysis</p>
     </div>
 
     <div class="upload-area">
-        <h3>📁 File Uploads (Optional - Auto-loads MITRE)</h3>
-        <div>
-            <label>Log Sources CSV: <input type="file" id="logsCsv" accept=".csv"></label><br><br>
-            <label>Google SecOps JSON: <input type="file" id="secopsJson" accept=".json"></label><br><br>
-            <label>Native Detections: <input type="file" id="nativeJson" accept=".json"></label>
-        </div>
-        <br>
-        <div id="autoLoadStatus"></div>
+        <h3>📁 Upload Log Sources CSV</h3>
+        <p><small>Format: source,category,value<br>Example: "Windows Process Audit,native-detection,high"</small></p>
+        <input type="file" id="logsCsv" accept=".csv"><br><br>
+        
+        <div id="autoLoadStatus" class="status"></div>
         <button onclick="analyzeSOC()" id="analyzeBtn" disabled>🚀 Analyze SOC Coverage</button>
         <button onclick="exportLayer()" id="exportBtn" disabled>📊 Export Navigator Layer</button>
-    </div>
-
-    <div class="matrix-container" id="matrixContainer">
-        <iframe id="navigatorFrame" style="width:100%; height:100%; border:none;"></iframe>
+        <button onclick="exportCSV()" id="exportCsvBtn" disabled>📤 Export Results CSV</button>
     </div>
 
     <div id="results" class="loading">Loading MITRE Enterprise JSON...</div>
@@ -53,135 +50,179 @@
         
         // 🚀 AUTO-LOAD MITRE JSON FROM YOUR ASSETS FOLDER
         async function loadMitreData() {
+            const status = document.getElementById('autoLoadStatus');
             try {
-                const status = document.getElementById('autoLoadStatus');
-                status.innerHTML = '🔄 Downloading MITRE Enterprise JSON...';
+                status.innerHTML = '🔄 Loading MITRE Enterprise JSON...';
                 
-                // First try local assets folder (your GitHub workflow)
-                const response = await fetch('./assets/enterprise-attack.json');
+                // Try your GitHub assets folder first
+                let response = await fetch('./assets/enterprise-attack.json');
                 if (response.ok) {
                     mitreData = await response.json();
-                    status.innerHTML = '✅ MITRE JSON loaded! Ready to analyze.';
+                    status.innerHTML = '<span class="status success">✅ Local MITRE JSON loaded! (' + 
+                        (mitreData.objects?.length || 0) + ' objects)</span>';
                     document.getElementById('analyzeBtn').disabled = false;
-                    return;
+                    return true;
                 }
                 
-                // Fallback to MITRE CDN
-                status.innerHTML = '🔄 Assets not found, loading from MITRE...';
-                const fallback = await fetch('https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json');
-                mitreData = await fallback.json();
-                status.innerHTML = '✅ MITRE JSON loaded from CDN! Ready to analyze.';
+                // Fallback to MITRE official CDN
+                status.innerHTML = '🔄 Loading from MITRE CDN...';
+                response = await fetch('https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json');
+                mitreData = await response.json();
+                status.innerHTML = '<span class="status success">✅ MITRE CDN loaded! Ready to analyze.</span>';
                 document.getElementById('analyzeBtn').disabled = false;
+                return true;
                 
             } catch (error) {
-                document.getElementById('autoLoadStatus').innerHTML = 
-                    '❌ Failed to load MITRE JSON. <br>1. Wait for GitHub workflow to complete<br>2. Or manually upload enterprise-attack.json';
+                status.innerHTML = '<span class="status error">❌ Failed to load MITRE JSON. Check GitHub workflow or network.</span>';
+                console.error('MITRE load error:', error);
+                return false;
             }
         }
 
-        // File upload handlers
-        document.getElementById('logsCsv').addEventListener('change', e => readFile(e.target.files[0], 'logs'));
-        document.getElementById('secopsJson').addEventListener('change', e => readFile(e.target.files[0], 'secops'));
-        document.getElementById('nativeJson').addEventListener('change', e => readFile(e.target.files[0], 'native'));
-
-        function readFile(file, type) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                if (type === 'logs') parseLogs(e.target.result);
-                console.log(`${type} loaded`);
-            };
-            reader.readAsText(file);
-        }
+        // File upload handler
+        document.getElementById('logsCsv').addEventListener('change', e => {
+            if (e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => parseLogs(e.target.result);
+                reader.readAsText(e.target.files[0]);
+            }
+        });
 
         function parseLogs(csvText) {
             const lines = csvText.split('\n').map(l => l.split(','));
             logSources = {};
             lines.slice(1).forEach(row => {
-                if (row[0]) logSources[row[0].trim()] = { category: row[1]?.trim() || 'context', value: row[2]?.trim() || 'medium' };
+                if (row[0] && row[0].trim()) {
+                    const source = row[0].trim();
+                    logSources[source] = { 
+                        category: row[1]?.trim() || 'context', 
+                        value: row[2]?.trim() || 'medium' 
+                    };
+                }
             });
-            console.log('Log sources parsed:', Object.keys(logSources).length);
+            console.log('Parsed', Object.keys(logSources).length, 'log sources');
         }
 
         async function analyzeSOC() {
-            if (!mitreData.objects) {
-                alert('MITRE JSON not loaded! Wait for auto-download or upload manually.');
+            if (!mitreData.objects?.length) {
+                alert('MITRE JSON not loaded!');
                 return;
             }
 
-            document.getElementById('analyzeBtn').disabled = true;
+            const btn = document.getElementById('analyzeBtn');
+            btn.disabled = true;
+            btn.textContent = '🔄 Analyzing...';
+            
             const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<div class="loading">🔄 Analyzing coverage...</div>';
+            resultsDiv.innerHTML = '<div class="loading">🔄 Building MITRE Matrix...</div>';
 
-            // Extract techniques from MITRE JSON
+            // Group by tactics
+            const tactics = {};
             const techniques = mitreData.objects.filter(o => o.type === 'attack-pattern');
-            const results = [];
-
+            
             techniques.forEach(t => {
                 const id = t.external_references?.[0]?.external_id || 'TXXXX';
                 const name = t.name || 'Unknown';
+                const tactic = t.kill_chain_phases?.[0]?.phase_name || 'unknown';
                 const dataSources = t['x_mitre_data_sources'] || [];
                 
-                // Calculate coverage based on your log sources
-                let score = 0, category = 'low';
-                const coveredSources = dataSources.filter(ds => 
-                    logSources[ds] || logSources[ds.split(':')[0]] || logSources[ds.split('-')[0]]
-                );
-                
-                if (dataSources.length > 0) {
-                    score = (coveredSources.length / dataSources.length) * 100;
-                }
-                
-                if (score >= 80) category = 'high';
-                else if (score >= 50) category = 'medium';
-
-                coverageData[id] = { 
-                    score: Math.round(score), 
-                    sources: dataSources.length, 
-                    covered: coveredSources.length, 
-                    category,
-                    name,
-                    dataSources,
-                    coveredSources 
-                };
-                results.push({ id, name, score, category, dataSources, coveredSources });
+                if (!tactics[tactic]) tactics[tactic] = [];
+                tactics[tactic].push({ id, name, dataSources });
             });
 
-            displayResults(results);
+            // Calculate coverage
+            Object.values(tactics).forEach(techs => {
+                techs.forEach(t => {
+                    const coveredSources = t.dataSources.filter(ds => 
+                        logSources[ds] || 
+                        logSources[ds.split(':')[0]] || 
+                        logSources[ds.split('-')[0]]
+                    );
+                    
+                    const score = t.dataSources.length ? 
+                        (coveredSources.length / t.dataSources.length) * 100 : 0;
+                    
+                    const category = score >= 80 ? 'high' : score >= 50 ? 'medium' : 'low';
+                    
+                    coverageData[t.id] = {
+                        score: Math.round(score),
+                        sources: t.dataSources.length,
+                        covered: coveredSources.length,
+                        category,
+                        name: t.name,
+                        dataSources: t.dataSources,
+                        coveredSources
+                    };
+                });
+            });
+
+            displayMitreMatrix(tactics);
             generateLayer();
             document.getElementById('exportBtn').disabled = false;
-            document.getElementById('analyzeBtn').disabled = false;
+            document.getElementById('exportCsvBtn').disabled = false;
+            btn.textContent = '✅ Re-Analyze';
+            btn.disabled = false;
         }
 
-        function displayResults(results) {
-            const gaps = results.filter(r => r.score < 50);
+        function displayMitreMatrix(tactics) {
             let html = `
-                <h3>📊 SOC Coverage Summary (${results.length} techniques analyzed)</h3>
+                <h3>🎯 MITRE ATT&CK Matrix - SOC Coverage Analysis</h3>
+                <div style="overflow-x: auto;">
                 <table>
-                    <tr><th>ID</th><th>Technique</th><th>Coverage</th><th>Sources</th><th>Status</th></tr>
-            `;
-            
-            // Sort by coverage (worst first) and show top 20
-            results.sort((a,b) => b.score - a.score).slice(0, 20).forEach(r => {
-                const className = `coverage-${r.category}`;
-                html += `<tr class="${className}">
-                    <td>${r.id}</td>
-                    <td>${r.name}</td>
-                    <td><strong>${r.score}%</strong></td>
-                    <td>${r.covered}/${r.sources}</td>
-                    <td>${r.category.toUpperCase()}</td>
-                </tr>`;
-            });
-            html += '</table>';
+                    <tr>
+                        <th>Tactic</th>
+                        <th>Technique ID</th>
+                        <th>Technique Name</th>
+                        <th>Coverage</th>
+                        <th>Data Sources</th>
+                        <th>Status</th>
+                    </tr>`;
 
-            if (gaps.length) {
-                html += `<div class="gaps">
-                    <h4>🔴 Critical Gaps (${gaps.length} techniques):</h4>
-                    <ul>`;
-                gaps.slice(0, 10).forEach(g => {
-                    html += `<li><strong>${g.id}:</strong> ${g.name}<br>
-                            ${g.score}% coverage - Missing: ${g.dataSources.slice(0,3).join(', ')}...</li>`;
+            let totalTechniques = 0, totalCoverage = 0;
+            
+            Object.entries(tactics).forEach(([tacticName, techniques]) => {
+                // Tactic header
+                html += `<tr class="tactic-row"><td colspan="6"><strong>${tacticName}</strong> (${techniques.length} techniques)</td></tr>`;
+                
+                techniques.slice(0, 5).forEach(t => { // Limit per tactic
+                    const data = coverageData[t.id];
+                    if (!data) return;
+                    
+                    const className = `coverage-${data.category}`;
+                    totalTechniques++;
+                    totalCoverage += data.score;
+                    
+                    html += `
+                        <tr class="${className}">
+                            <td></td>
+                            <td><strong>${t.id}</strong></td>
+                            <td>${t.name}</td>
+                            <td><strong>${data.score}%</strong><br>
+                                <small>${data.covered}/${data.sources}</small></td>
+                            <td>${data.dataSources.slice(0,3).join('<br>')}${data.dataSources.length > 3 ? '<br><small>...</small>' : ''}</td>
+                            <td>${data.category.toUpperCase()}</td>
+                        </tr>`;
                 });
-                html += '</ul></div>';
+            });
+            
+            html += `
+                    </table>
+                    <div style="margin: 20px 0; padding: 15px; background: #e9ecef;">
+                        <strong>Overall Coverage: ${Math.round(totalCoverage/totalTechniques || 0)}%</strong> 
+                        (${totalTechniques} techniques analyzed)
+                    </div>`;
+
+            // Critical gaps
+            const gaps = Object.values(coverageData).filter(d => d.score < 50);
+            if (gaps.length) {
+                html += `
+                    <div class="gaps">
+                        <h4>🔴 Critical Gaps (${gaps.length} techniques):</h4>
+                        ${gaps.slice(0, 10).map(g => 
+                            `<div>${g.id}: ${g.name} - ${g.score}%<br>
+                            <small>Missing: ${g.dataSources.slice(0,3).join(', ')}</small></div>`
+                        ).join('')}
+                    </div>`;
             }
 
             document.getElementById('results').innerHTML = html;
@@ -189,36 +230,21 @@
 
         function generateLayer() {
             layerData = {
-                name: 'SOC Assessment - ' + new Date().toISOString().slice(0,10),
+                name: `SOC Assessment - ${new Date().toISOString().slice(0,10)}`,
                 versions: { 'attack': '15' },
                 domain: 'enterprise-attack',
-                description: `Log coverage analysis: ${Object.keys(coverageData).length} techniques assessed`,
+                description: `Auto-generated from SOC log analysis: ${Object.keys(coverageData).length} techniques`,
                 techniques: Object.entries(coverageData)
-                    .filter(([id]) => id.match(/^T[0-9]+/)) // Only valid technique IDs
+                    .filter(([id]) => id.match(/^T[0-9]+/))
                     .map(([id, data]) => ({
                         techniqueID: id,
                         color: data.score < 50 ? '#ff4444' : data.score < 80 ? '#ffaa00' : '#44ff44',
                         metadata: [
-                            { name: 'coverage', value: data.score + '%' },
-                            { name: 'sources-covered', value: data.covered + '/' + data.sources }
+                            { name: 'coverage', value: `${data.score}%` },
+                            { name: 'sources', value: `${data.covered}/${data.sources}` }
                         ]
                     }))
             };
-            
-            // Try to load layer into Navigator iframe
-            loadLayerIntoNavigator();
-        }
-
-        function loadLayerIntoNavigator() {
-            const iframe = document.getElementById('navigatorFrame');
-            try {
-                iframe.contentWindow.postMessage({ 
-                    type: 'loadLayer', 
-                    layer: layerData 
-                }, '*');
-            } catch(e) {
-                console.log('Navigator not ready yet, layer ready for manual load');
-            }
         }
 
         function exportLayer() {
@@ -230,21 +256,22 @@
             a.click();
         }
 
-        // Initialize on page load
-        window.addEventListener('load', async () => {
-            // Load MITRE Navigator
-            document.getElementById('navigatorFrame').src = 
-                'https://cdn.jsdelivr.net/gh/mitre-attack/attack-navigator@master/navigator/index.html#enterprise';
-            
-            // Auto-load MITRE data
-            await loadMitreData();
-            
-            // Listen for Navigator ready message
-            window.addEventListener('message', (e) => {
-                if (e.data.type === 'navigatorReady' && layerData.techniques) {
-                    loadLayerIntoNavigator();
-                }
+        function exportCSV() {
+            let csv = 'Technique ID,Name,Coverage %,Sources Covered/Total,Category\n';
+            Object.entries(coverageData).forEach(([id, data]) => {
+                csv += `"${id}","${data.name}",${data.score},${data.covered}/${data.sources},"${data.category}"\n`;
             });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `soc-coverage-${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+        }
+
+        // Initialize
+        window.addEventListener('load', async () => {
+            await loadMitreData();
         });
     </script>
 </body>

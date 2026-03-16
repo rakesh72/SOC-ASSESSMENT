@@ -1,39 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-  <title>My Sample Page - 2025</title>
-  
-  <!-- Basic meta tags -->
-  <meta name="description" content="A simple, modern HTML starter template">
-  <meta name="author" content="Rakesh">
-  
-  <!-- Favicon (replace with your own) -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  
-  <!-- Google Fonts (optional) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --gray-100: #f9fafb;
-      --gray-800: #1f2937;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MITRE ATT&CK SOC Assessment Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1400px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .header { text-align: center; background: #1a3c5e; color: white; padding: 20px; border-radius: 8px; }
+        .upload-area { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        button { background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #218838; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        .matrix-container { height: 600px; border: 1px solid #ddd; margin: 20px 0; background: white; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #007bff; color: white; }
+        .coverage-low { background: #f8d7da; color: #721c24; }
+        .coverage-medium { background: #fff3cd; color: #856404; }
+        .coverage-high { background: #d4edda; color: #155724; }
+        .gaps { margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 MITRE ATT&CK SOC Assessment Tool</h1>
+        <p>Log Analysis → Coverage Mapping → Gap Identification</p>
+    </div>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <div class="upload-area">
+        <h3>📁 Step 1: Upload Files</h3>
+        <div>
+            <label>MITRE JSON: <input type="file" id="mitreJson" accept=".json"></label><br><br>
+            <label>Google SecOps Detections: <input type="file" id="secopsJson" accept=".json"></label><br><br>
+            <label>Native Detections: <input type="file" id="nativeJson" accept=".json"></label><br><br>
+            <label>Log Sources CSV: <input type="file" id="logsCsv" accept=".csv"></label>
+        </div>
+        <br>
+        <button onclick="analyzeSOC()">🚀 Analyze SOC Coverage</button>
+        <button onclick="exportLayer()" id="exportBtn" disabled>📊 Export Navigator Layer</button>
+    </div>
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background-color: var(--gray-100);
-      color: var(--gray-800);
-      line-height
+    <div class="matrix-container" id="matrixContainer">
+        <iframe id="navigatorFrame" style="width:100%; height:100%; border:none;"></iframe>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        let mitreData = {}, coverageData = {}, layerData = {};
+
+        // File upload handlers
+        document.getElementById('mitreJson').addEventListener('change', e => readFile(e.target.files[0], 'mitre'));
+        document.getElementById('secopsJson').addEventListener('change', e => readFile(e.target.files[0], 'secops'));
+        document.getElementById('nativeJson').addEventListener('change', e => readFile(e.target.files[0], 'native'));
+        document.getElementById('logsCsv').addEventListener('change', e => readFile(e.target.files[0], 'logs'));
+
+        function readFile(file, type) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (type === 'mitre') mitreData = JSON.parse(e.target.result);
+                else if (type === 'logs') parseLogs(e.target.result);
+                console.log(`${type} loaded`);
+            };
+            reader.readAsText(file);
+        }
+
+        function parseLogs(csvText) {
+            // Parse CSV: source,category,value
+            const lines = csvText.split('\n').map(l => l.split(','));
+            window.logSources = {};
+            lines.slice(1).forEach(row => {
+                if (row[0]) window.logSources[row[0].trim()] = { category: row[1], value: row[2] };
+            });
+        }
+
+        async function analyzeSOC() {
+            if (!mitreData.objects) {
+                alert('Upload MITRE JSON first!');
+                return;
+            }
+
+            const techniques = mitreData.objects.filter(o => o.type === 'attack-pattern');
+            const results = [];
+
+            techniques.forEach(t => {
+                const id = t.external_references?.[0]?.external_id || 'TXXXX';
+                const dataSources = t['x_mitre_data_sources'] || [];
+                
+                // Calculate coverage
+                let score = 0, category = 'low';
+                const coveredSources = dataSources.filter(ds => 
+                    window.logSources?.[ds] || window.logSources?.[ds.split(':')[0]]
+                );
+                
+                score = (coveredSources.length / dataSources.length) * 100;
+                if (score >= 80) category = 'high';
+                else if (score >= 50) category = 'medium';
+
+                coverageData[id] = { score: Math.round(score), sources: dataSources.length, covered: coveredSources.length, category };
+                results.push({ id, score, category, dataSources, coveredSources });
+            });
+
+            displayResults(results);
+            generateLayer();
+            document.getElementById('exportBtn').disabled = false;
+        }
+
+        function displayResults(results) {
+            const gaps = results.filter(r => r.score < 50);
+            let html = `
+                <h3>📊 Coverage Summary</h3>
+                <table>
+                    <tr><th>Technique</th><th>Coverage</th><th>Sources</th><th>Status</th></tr>
+            `;
+            
+            results.slice(0, 20).forEach(r => {
+                const className = `coverage-${r.category}`;
+                html += `<tr class="${className}">
+                    <td>${r.id}</td>
+                    <td>${r.score}%</td>
+                    <td>${r.covered}/${r.sources}</td>
+                    <td>${r.category.toUpperCase()}</td>
+                </tr>`;
+            });
+            html += '</table>';
+
+            if (gaps.length) {
+                html += `<div class="gaps">
+                    <h4>🔴 Critical Gaps (${gaps.length}):</h4>
+                    <ul>`;
+                gaps.slice(0, 10).forEach(g => {
+                    html += `<li>${g.id}: ${g.score}% coverage - Missing ${g.dataSources.slice(0,3).join(', ')}</li>`;
+                });
+                html += '</ul></div>';
+            }
+
+            document.getElementById('results').innerHTML = html;
+        }
+
+        function generateLayer() {
+            layerData = {
+                name: 'SOC Assessment - ' + new Date().toISOString().slice(0,10),
+                versions: { 'attack': '15' },
+                domain: 'enterprise-attack',
+                description: 'Log coverage analysis',
+                techniques: Object.entries(coverageData).map(([id, data]) => ({
+                    techniqueID: id,
+                    color: data.score < 50 ? '#ff4444' : data.score < 80 ? '#ffaa00' : '#44ff44',
+                    metadata: [
+                        { name: 'coverage', value: data.score + '%' },
+                        { name: 'sources', value: data.covered + '/' + data.sources }
+                    ]
+                }))
+            };
+        }
+
+        function exportLayer() {
+            const blob = new Blob([JSON.stringify(layerData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'soc-assessment-layer.json';
+            a.click();
+        }
+
+        // Auto-load MITRE Navigator (CDN)
+        window.addEventListener('load', () => {
+            const iframe = document.getElementById('navigatorFrame');
+            iframe.src = 'https://cdn.jsdelivr.net/gh/mitre-attack/attack-navigator@master/navigator/index.html';
+        });
+
+        // Load layer into Navigator when ready
+        window.addEventListener('message', (e) => {
+            if (e.data.type === 'navigatorReady' && layerData.techniques) {
+                e.source.postMessage({ type: 'loadLayer', layer: layerData }, '*');
+            }
+        });
+    </script>
+</body>
+</html>

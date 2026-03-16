@@ -4,12 +4,19 @@ on:
     - cron: '0 0 * * 0'  # Every Sunday midnight UTC
   workflow_dispatch:      # Manual trigger button
 
+permissions:
+  contents: write        # ✅ Fixes permission issues
+
 jobs:
   download:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
+    - name: Checkout repo
+      uses: actions/checkout@v4        # ✅ Latest version - Node 20 compatible
+      
+    - name: Create assets directory
+      run: mkdir -p assets
+      
     - name: Download MITRE Enterprise JSON
       run: |
         curl -L -o assets/enterprise-attack.json \
@@ -25,5 +32,9 @@ jobs:
         git config user.name "GitHub Action"
         git config user.email "action@github.com"
         git add assets/*.json
-        git diff --staged --quiet || git commit -m "🔄 Update MITRE ATT&CK JSON [$(date +%Y-%m-%d)]"
-        git push
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "🔄 Update MITRE ATT&CK JSON [$(date +%Y-%m-%d)]"
+          git push
+        fi

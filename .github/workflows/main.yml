@@ -1,0 +1,29 @@
+name: Download MITRE Enterprise JSON
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday midnight UTC
+  workflow_dispatch:      # Manual trigger button
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Download MITRE Enterprise JSON
+      run: |
+        curl -L -o assets/enterprise-attack.json \
+        https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json
+        
+    - name: Download MITRE Data Sources
+      run: |
+        curl -L -o assets/datasources.json \
+        https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/datasources.json
+        
+    - name: Commit updated files
+      run: |
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add assets/*.json
+        git diff --staged --quiet || git commit -m "🔄 Update MITRE ATT&CK JSON [$(date +%Y-%m-%d)]"
+        git push

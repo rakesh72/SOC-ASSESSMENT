@@ -24,7 +24,7 @@ jobs:
         pip install pandas openpyxl requests
         
     - name: Download & Process Excel Files
-      run: python .github/scripts/process_mitre_excel.py
+      run: python .github/process_mitre_excel.py
     
     - name: Commit mapping files
       run: |

@@ -1,0 +1,39 @@
+name: MITRE Excel → Technique Data Component Mapping
+on:
+  schedule:
+    - cron: '0 2 * * 0'  # Every Sunday 2AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  map-techniques:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas openpyxl requests
+        
+    - name: Download & Process Excel Files
+      run: python .github/scripts/process_mitre_excel.py
+    
+    - name: Commit mapping files
+      run: |
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git add assets/*.json
+        if git diff --staged --quiet; then
+          echo "No changes"
+        else
+          git commit -m "🔄 Update MITRE Technique→Data Component mapping [$(date +%Y-%m-%d)]"
+          git push
+        fi

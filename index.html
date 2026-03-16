@@ -3,246 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MITRE ATT&CK SOC Assessment Tool</title>
+    <title>MITRE ATT&CK SOC Assessment - COMPLETE MATRIX</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 1400px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
-        .header { text-align: center; background: #1a3c5e; color: white; padding: 20px; border-radius: 8px; }
-        .upload-area { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        button { background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #218838; }
-        button:disabled { background: #6c757d; cursor: not-allowed; }
-        .matrix-container { height: 600px; border: 1px solid #ddd; margin: 20px 0; background: white; overflow: auto; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background: #007bff; color: white; position: sticky; top: 0; z-index: 10; }
-        .coverage-low { background: #f8d7da !important; color: #721c24; }
-        .coverage-medium { background: #fff3cd !important; color: #856404; }
-        .coverage-high { background: #d4edda !important; color: #155724; }
-        .gaps { margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 6px; }
-        .loading { text-align: center; padding: 40px; font-style: italic; color: #666; }
-        .status { padding: 10px; border-radius: 4px; margin: 10px 0; }
-        .status.success { background: #d4edda; color: #155724; }
-        .status.error { background: #f8d7da; color: #721c24; }
-        .tactic-row { background: #e9ecef; font-weight: bold; }
+        body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif; margin: 0; background: #0a0a0a; color: #fff; }
+        .header { background: linear-gradient(135deg, #1a237e 0%, #3f51b5 100%); padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 2.5em; }
+        .controls { background: #1a1a1a; padding: 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        button { background: #4caf50; color: white; border: none; padding: 12px 24px; margin: 0 5px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 500; }
+        button:hover { background: #45a049; }
+        button:disabled { background: #666; cursor: not-allowed; }
+        button.danger { background: #f44336; }
+        button.danger:hover { background: #da190b; }
+        #status { padding: 10px 15px; border-radius: 4px; margin: 10px 0; font-weight: 500; }
+        .status-success { background: #1b5e20; }
+        .status-error { background: #b71c1c; }
+        .matrix-container { max-width: 100vw; overflow-x: auto; background: #1a1a1a; padding: 20px; }
+        .matrix { border-collapse: collapse; background: #2d2d2d; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .tactic-header { background: linear-gradient(135deg, #3f51b5 0%, #1a237e 100%) !important; color: white; font-weight: bold; font-size: 1.1em; position: sticky; left: 0; z-index: 50; }
+        th { padding: 12px 8px; text-align: center; font-weight: 600; border-right: 1px solid #444; }
+        .technique-col { min-width: 200px; max-width: 250px; position: sticky; background: #2d2d2d !important; z-index: 40; border-right: 3px solid #3f51b5; }
+        .subtechnique-col { padding-left: 20px; font-size: 0.9em; }
+        td { padding: 8px; text-align: center; border-right: 1px solid #444; vertical-align: middle; height: 60px; font-size: 14px; }
+        .coverage-high { background: #2e7d32 !important; color: white; }
+        .coverage-medium { background: #f57c00 !important; color: white; }
+        .coverage-low { background: #d32f2f !important; color: white; }
+        .coverage-none { background: #424242 !important; color: #ccc; }
+        .score { font-weight: bold; font-size: 18px; }
+        .tactic-group { margin-bottom: 30px; }
+        .summary { background: #2d2d2d; padding: 20px; margin: 20px; border-radius: 8px; }
+        .upload-area { background: #2d2d2d; padding: 20px; margin: 10px; border-radius: 8px; }
+        input[type=file] { background: #424242; color: white; padding: 10px; border-radius: 4px; border: 1px solid #666; }
+        @media (max-width: 1200px) { .matrix { font-size: 12px; } td { padding: 6px; height: 50px; } }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🚀 MITRE ATT&CK SOC Assessment Tool</h1>
-        <p>Auto-loads enterprise-attack.json → Custom MITRE Matrix → SOC Gap Analysis</p>
+        <h1>🎯 MITRE ATT&CK® Enterprise Matrix - COMPLETE SOC Coverage</h1>
+        <p>Full 14×200+ matrix with real-time log coverage analysis</p>
     </div>
 
-    <div class="upload-area">
-        <h3>📁 Upload Log Sources CSV</h3>
-        <p><small>Format: source,category,value<br>Example: "Windows Process Audit,native-detection,high"</small></p>
-        <input type="file" id="logsCsv" accept=".csv"><br><br>
-        
-        <div id="autoLoadStatus" class="status"></div>
-        <button onclick="analyzeSOC()" id="analyzeBtn" disabled>🚀 Analyze SOC Coverage</button>
-        <button onclick="exportLayer()" id="exportBtn" disabled>📊 Export Navigator Layer</button>
-        <button onclick="exportCSV()" id="exportCsvBtn" disabled>📤 Export Results CSV</button>
+    <div class="controls">
+        <div class="upload-area">
+            <label>📁 Log Sources CSV (source,category,value):</label><br>
+            <input type="file" id="logsCsv" accept=".csv" style="margin: 10px 0;">
+        </div>
+        <div id="status"></div>
+        <button onclick="analyzeMatrix()" id="analyzeBtn">🚀 Analyze Full Matrix</button>
+        <button onclick="exportLayer()">📊 Export Navigator Layer</button>
+        <button onclick="exportCSV()" class="danger">📤 Export Full CSV</button>
+        <button onclick="clearLogs()">🗑️ Clear Logs</button>
     </div>
 
-    <div id="results" class="loading">Loading MITRE Enterprise JSON...</div>
+    <div class="matrix-container">
+        <div class="summary" id="summary">
+            <div style="text-align: center; padding: 40px;">
+                <h2>⚡ Loading MITRE Enterprise ATT&CK Matrix...</h2>
+                <p>~2MB JSON → 14 Tactics → 200+ Techniques → Real-time SOC analysis</p>
+            </div>
+        </div>
+        <div id="matrix" style="display: none;"></div>
+    </div>
 
     <script>
-        let mitreData = {}, coverageData = {}, layerData = {}, logSources = {};
-        
-        // 🚀 AUTO-LOAD MITRE JSON FROM YOUR ASSETS FOLDER
+        let mitreData = {}, logSources = {}, coverageData = {}, layerData = {};
+        const TACTICS = ['reconnaissance','resource-development','initial-access','execution','persistence','privilege-escalation','defense-evasion','credential-access','discovery','lateral-movement','collection','command-and-control','exfiltration','impact'];
+
+        // 🚀 AUTO-LOAD COMPLETE MITRE MATRIX
         async function loadMitreData() {
-            const status = document.getElementById('autoLoadStatus');
+            const status = document.getElementById('status');
             try {
-                status.innerHTML = '🔄 Loading MITRE Enterprise JSON...';
+                status.innerHTML = '<div class="status-success">🔄 Loading MITRE Enterprise JSON...</div>';
                 
-                // Try your GitHub assets folder first
+                // Priority 1: Your GitHub assets folder
                 let response = await fetch('./assets/enterprise-attack.json');
-                if (response.ok) {
-                    mitreData = await response.json();
-                    status.innerHTML = '<span class="status success">✅ Local MITRE JSON loaded! (' + 
-                        (mitreData.objects?.length || 0) + ' objects)</span>';
-                    document.getElementById('analyzeBtn').disabled = false;
-                    return true;
+                if (!response.ok) {
+                    status.innerHTML = '<div class="status-success">🔄 Loading from MITRE CDN...</div>';
+                    response = await fetch('https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json');
                 }
                 
-                // Fallback to MITRE official CDN
-                status.innerHTML = '🔄 Loading from MITRE CDN...';
-                response = await fetch('https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json');
                 mitreData = await response.json();
-                status.innerHTML = '<span class="status success">✅ MITRE CDN loaded! Ready to analyze.</span>';
+                status.innerHTML = `<div class="status-success">✅ COMPLETE MATRIX LOADED! 
+                    ${mitreData.objects?.length || 0} objects | Ready for SOC analysis</div>`;
                 document.getElementById('analyzeBtn').disabled = false;
                 return true;
-                
             } catch (error) {
-                status.innerHTML = '<span class="status error">❌ Failed to load MITRE JSON. Check GitHub workflow or network.</span>';
-                console.error('MITRE load error:', error);
+                status.innerHTML = '<div class="status-error">❌ MITRE JSON failed to load</div>';
+                console.error(error);
                 return false;
             }
         }
 
-        // File upload handler
+        // Log CSV parser
         document.getElementById('logsCsv').addEventListener('change', e => {
             if (e.target.files[0]) {
                 const reader = new FileReader();
-                reader.onload = e => parseLogs(e.target.result);
+                reader.onload = evt => {
+                    logSources = {};
+                    const lines = evt.target.result.split('\n').map(l => l.split(','));
+                    lines.slice(1).forEach(row => {
+                        if (row[0]?.trim()) {
+                            logSources[row[0].trim()] = {
+                                category: row[1]?.trim() || 'context',
+                                value: row[2]?.trim() || 'medium'
+                            };
+                        }
+                    });
+                    document.getElementById('status').innerHTML = 
+                        `<div class="status-success">✅ ${Object.keys(logSources).length} log sources loaded</div>`;
+                };
                 reader.readAsText(e.target.files[0]);
             }
         });
 
-        function parseLogs(csvText) {
-            const lines = csvText.split('\n').map(l => l.split(','));
-            logSources = {};
-            lines.slice(1).forEach(row => {
-                if (row[0] && row[0].trim()) {
-                    const source = row[0].trim();
-                    logSources[source] = { 
-                        category: row[1]?.trim() || 'context', 
-                        value: row[2]?.trim() || 'medium' 
-                    };
-                }
-            });
-            console.log('Parsed', Object.keys(logSources).length, 'log sources');
-        }
-
-        async function analyzeSOC() {
+        async function analyzeMatrix() {
             if (!mitreData.objects?.length) {
-                alert('MITRE JSON not loaded!');
+                alert('Load MITRE data first!');
                 return;
             }
 
             const btn = document.getElementById('analyzeBtn');
             btn.disabled = true;
-            btn.textContent = '🔄 Analyzing...';
-            
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<div class="loading">🔄 Building MITRE Matrix...</div>';
+            btn.textContent = '🔄 Analyzing 200+ Techniques...';
 
-            // Group by tactics
-            const tactics = {};
-            const techniques = mitreData.objects.filter(o => o.type === 'attack-pattern');
-            
-            techniques.forEach(t => {
-                const id = t.external_references?.[0]?.external_id || 'TXXXX';
-                const name = t.name || 'Unknown';
-                const tactic = t.kill_chain_phases?.[0]?.phase_name || 'unknown';
-                const dataSources = t['x_mitre_data_sources'] || [];
-                
-                if (!tactics[tactic]) tactics[tactic] = [];
-                tactics[tactic].push({ id, name, dataSources });
-            });
+            // Parse ALL techniques by tactic
+            const tacticData = {};
+            TACTICS.forEach(tactic => tacticData[tactic] = []);
 
-            // Calculate coverage
-            Object.values(tactics).forEach(techs => {
-                techs.forEach(t => {
-                    const coveredSources = t.dataSources.filter(ds => 
-                        logSources[ds] || 
-                        logSources[ds.split(':')[0]] || 
-                        logSources[ds.split('-')[0]]
-                    );
+            mitreData.objects
+                .filter(o => o.type === 'attack-pattern')
+                .forEach(t => {
+                    const id = t.external_references?.[0]?.external_id || 'TXXXX';
+                    const name = t.name || 'Unknown';
+                    const tactic = t.kill_chain_phases?.[0]?.phase_name || 'unknown';
+                    const dataSources = t['x_mitre_data_sources'] || [];
                     
-                    const score = t.dataSources.length ? 
-                        (coveredSources.length / t.dataSources.length) * 100 : 0;
-                    
-                    const category = score >= 80 ? 'high' : score >= 50 ? 'medium' : 'low';
-                    
-                    coverageData[t.id] = {
-                        score: Math.round(score),
-                        sources: t.dataSources.length,
-                        covered: coveredSources.length,
-                        category,
-                        name: t.name,
-                        dataSources: t.dataSources,
-                        coveredSources
-                    };
+                    if (TACTICS.includes(tactic)) {
+                        const covered = dataSources.filter(ds => 
+                            logSources[ds] || logSources[ds.split(':')[0]] || logSources[ds.split('-')[0]]
+                        );
+                        const score = dataSources.length ? (covered.length / dataSources.length) * 100 : 0;
+                        const category = score >= 80 ? 'high' : score >= 50 ? 'medium' : 'low';
+                        
+                        coverageData[id] = { score: Math.round(score), category, name, dataSources, covered: covered.length };
+                        tacticData[tactic].push({ id, name, score, category, dataSources });
+                    }
                 });
-            });
 
-            displayMitreMatrix(tactics);
+            displayCompleteMatrix(tacticData);
             generateLayer();
-            document.getElementById('exportBtn').disabled = false;
-            document.getElementById('exportCsvBtn').disabled = false;
-            btn.textContent = '✅ Re-Analyze';
+            btn.textContent = '✅ Re-Analyze Matrix';
             btn.disabled = false;
         }
 
-        function displayMitreMatrix(tactics) {
-            let html = `
-                <h3>🎯 MITRE ATT&CK Matrix - SOC Coverage Analysis</h3>
-                <div style="overflow-x: auto;">
-                <table>
-                    <tr>
-                        <th>Tactic</th>
-                        <th>Technique ID</th>
-                        <th>Technique Name</th>
-                        <th>Coverage</th>
-                        <th>Data Sources</th>
-                        <th>Status</th>
-                    </tr>`;
+        function displayCompleteMatrix(tacticData) {
+            let html = '';
+            let totalCoverage = 0, totalTechniques = 0;
 
-            let totalTechniques = 0, totalCoverage = 0;
-            
-            Object.entries(tactics).forEach(([tacticName, techniques]) => {
-                // Tactic header
-                html += `<tr class="tactic-row"><td colspan="6"><strong>${tacticName}</strong> (${techniques.length} techniques)</td></tr>`;
+            Object.entries(tacticData).forEach(([tactic, techniques]) => {
+                if (techniques.length === 0) return;
                 
-                techniques.slice(0, 5).forEach(t => { // Limit per tactic
-                    const data = coverageData[t.id];
-                    if (!data) return;
-                    
-                    const className = `coverage-${data.category}`;
-                    totalTechniques++;
-                    totalCoverage += data.score;
-                    
-                    html += `
-                        <tr class="${className}">
-                            <td></td>
-                            <td><strong>${t.id}</strong></td>
-                            <td>${t.name}</td>
-                            <td><strong>${data.score}%</strong><br>
-                                <small>${data.covered}/${data.sources}</small></td>
-                            <td>${data.dataSources.slice(0,3).join('<br>')}${data.dataSources.length > 3 ? '<br><small>...</small>' : ''}</td>
-                            <td>${data.category.toUpperCase()}</td>
-                        </tr>`;
-                });
-            });
-            
-            html += `
-                    </table>
-                    <div style="margin: 20px 0; padding: 15px; background: #e9ecef;">
-                        <strong>Overall Coverage: ${Math.round(totalCoverage/totalTechniques || 0)}%</strong> 
-                        (${totalTechniques} techniques analyzed)
-                    </div>`;
-
-            // Critical gaps
-            const gaps = Object.values(coverageData).filter(d => d.score < 50);
-            if (gaps.length) {
                 html += `
-                    <div class="gaps">
-                        <h4>🔴 Critical Gaps (${gaps.length} techniques):</h4>
-                        ${gaps.slice(0, 10).map(g => 
-                            `<div>${g.id}: ${g.name} - ${g.score}%<br>
-                            <small>Missing: ${g.dataSources.slice(0,3).join(', ')}</small></div>`
-                        ).join('')}
-                    </div>`;
-            }
+                    <div class="tactic-group">
+                        <table class="matrix">
+                            <thead>
+                                <tr>
+                                    <th class="tactic-header technique-col" rowspan="${techniques.length + 1}">${tactic.toUpperCase().replace('-', ' ')}</th>
+                                    <th colspan="${techniques.length}">TECHNIQUES (${techniques.length})</th>
+                                </tr>
+                                <tr>`;
+                
+                techniques.forEach((tech, i) => {
+                    html += `<th style="width: ${100/techniques.length}%">${tech.id}</th>`;
+                });
+                
+                html += '</tr></thead><tbody>';
+                
+                // Technique rows
+                techniques.forEach(tech => {
+                    html += `<td class="technique-col">${tech.id}<br><small>${tech.name}</small></td>`;
+                    
+                    // Coverage cells for each technique
+                    techniques.forEach(otherTech => {
+                        const className = `coverage-${coverageData[otherTech.id]?.category || 'none'}`;
+                        const score = coverageData[otherTech.id]?.score || 0;
+                        html += `<td class="${className}">
+                            <div class="score">${score}%</div>
+                            <small>${otherTech.dataSources.length} sources</small>
+                        </td>`;
+                    });
+                    
+                    html += '</tr>';
+                });
+                
+                html += '</tbody></table></div>';
+                
+                totalTechniques += techniques.length;
+                totalCoverage += techniques.reduce((sum, t) => sum + (coverageData[t.id]?.score || 0), 0);
+            });
 
-            document.getElementById('results').innerHTML = html;
+            // Summary
+            const avgCoverage = Math.round(totalCoverage / totalTechniques);
+            document.getElementById('summary').innerHTML = `
+                <h3>📊 SOC COVERAGE SUMMARY</h3>
+                <div style="font-size: 2em; text-align: center; margin: 20px 0;">
+                    <span class="coverage-${avgCoverage >= 80 ? 'high' : avgCoverage >= 50 ? 'medium' : 'low'}">${avgCoverage}%</span>
+                    <div style="font-size: 0.5em; margin-top: 10px;">Overall Coverage | ${totalTechniques} techniques</div>
+                </div>
+                <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+                    ${Object.entries(coverageData).filter(([id]) => id.match(/^T[0-9]+/)).map(([id, data]) => 
+                        `<div style="text-align: center; margin: 10px;">
+                            <div class="coverage-${data.category} score">${data.score}%</div>
+                            <small>${id}</small>
+                        </div>`
+                    ).slice(0, 50).join('')}
+                </div>`;
+
+            document.getElementById('matrix').innerHTML = html;
+            document.getElementById('matrix').style.display = 'block';
         }
 
         function generateLayer() {
             layerData = {
-                name: `SOC Assessment - ${new Date().toISOString().slice(0,10)}`,
+                name: `SOC Matrix Complete - ${new Date().toISOString().slice(0,10)}`,
                 versions: { 'attack': '15' },
                 domain: 'enterprise-attack',
-                description: `Auto-generated from SOC log analysis: ${Object.keys(coverageData).length} techniques`,
                 techniques: Object.entries(coverageData)
                     .filter(([id]) => id.match(/^T[0-9]+/))
                     .map(([id, data]) => ({
                         techniqueID: id,
-                        color: data.score < 50 ? '#ff4444' : data.score < 80 ? '#ffaa00' : '#44ff44',
-                        metadata: [
-                            { name: 'coverage', value: `${data.score}%` },
-                            { name: 'sources', value: `${data.covered}/${data.sources}` }
-                        ]
+                        color: data.score < 50 ? '#d32f2f' : data.score < 80 ? '#f57c00' : '#2e7d32',
+                        metadata: [{ name: 'coverage', value: `${data.score}%` }]
                     }))
             };
         }
@@ -251,25 +241,35 @@
             const blob = new Blob([JSON.stringify(layerData, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `soc-assessment-${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
+            a.href = url; a.download = `soc-complete-matrix-${Date.now()}.json`; a.click();
         }
 
         function exportCSV() {
-            let csv = 'Technique ID,Name,Coverage %,Sources Covered/Total,Category\n';
-            Object.entries(coverageData).forEach(([id, data]) => {
-                csv += `"${id}","${data.name}",${data.score},${data.covered}/${data.sources},"${data.category}"\n`;
+            let csv = 'Tactic,Technique ID,Name,Coverage %,Data Sources,Covered,Category\n';
+            TACTICS.forEach(tactic => {
+                mitreData.objects
+                    .filter(o => o.type === 'attack-pattern' && o.kill_chain_phases?.[0]?.phase_name === tactic)
+                    .forEach(t => {
+                        const id = t.external_references?.[0]?.external_id;
+                        const data = coverageData[id];
+                        if (data) {
+                            csv += `"${tactic}","${id}","${t.name}",${data.score},${data.dataSources.length},${data.covered},"${data.category}"\n`;
+                        }
+                    });
             });
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `soc-coverage-${new Date().toISOString().slice(0,10)}.csv`;
-            a.click();
+            a.href = url; a.download = `soc-complete-matrix-${Date.now()}.csv`; a.click();
         }
 
-        // Initialize
+        function clearLogs() {
+            logSources = {};
+            document.getElementById('logsCsv').value = '';
+            document.getElementById('status').innerHTML = '';
+        }
+
+        // Initialize COMPLETE matrix
         window.addEventListener('load', async () => {
             await loadMitreData();
         });

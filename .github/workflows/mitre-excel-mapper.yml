@@ -1,48 +1,58 @@
 name: MITRE Excel → Technique Data Component Mapping
 on:
   schedule:
-    - cron: '0 2 * * 0'  # Sunday 2AM UTC
+    - cron: '0 2 * * 0'
   workflow_dispatch:
 
 permissions:
   contents: write
-  id-token: write
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # ✅ Fixes Node 20 warning
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   map-techniques:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v5  # ✅ Latest - Node 24 compatible
+    - name: Checkout
+      uses: actions/checkout@v4
       
-    - name: Setup Python 3.11
-      uses: actions/setup-python@v5  # ✅ Latest - Node 24 compatible
+    - name: Setup Python
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         
-    - name: Create directories
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip pandas openpyxl requests
+        
+    - name: Debug - List files
+      run: ls -la .github/scripts/ || mkdir -p .github/scripts
+        
+    - name: Create script & assets
       run: |
         mkdir -p .github/scripts assets
+        cat > .github/scripts/process_mitre_excel.py << 'EOF'
+        # [PASTE FIXED PYTHON SCRIPT BELOW]
+        EOF
         
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pandas==2.2.2 openpyxl==3.1.5 requests==2.32.3
-        
-    - name: Run MITRE Excel processor
+    - name: Run Excel processor
       run: python .github/process_mitre_excel.py
       
-    - name: Commit results
+    - name: Show results
+      run: |
+        echo "Generated files:"
+        ls -la assets/
+        cat assets/technique-data-components.json | head -20
+        
+    - name: Commit
       run: |
         git config user.name "GitHub Action"
         git config user.email "action@github.com"
-        git add assets/*.json assets/*.xlsx || true
-        if ! git diff --staged --quiet; then
-          git commit -m "🔄 MITRE Excel mapping updated [$(date +%Y-%m-%d)]"
-          git push
+        git add assets/ .github/scripts/
+        if git diff --staged --quiet; then
+          echo "No changes"
         else
-          echo "✅ No changes to commit"
+          git commit -m "🔄 MITRE Excel mapping [$(date +%Y-%m-%d)]"
+          git push
         fi

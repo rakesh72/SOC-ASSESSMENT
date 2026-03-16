@@ -1,0 +1,1802 @@
+{
+  "T1548": [
+    {
+      "type": "Data Component",
+      "name": "T1548.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1548.002"
+    }
+  ],
+  "T1548.002": [
+    {
+      "type": "Data Component",
+      "name": "T1548.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1548.002.002"
+    }
+  ],
+  "T1548.004": [
+    {
+      "type": "Data Component",
+      "name": "T1548.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1548.004.002"
+    }
+  ],
+  "T1548.001": [
+    {
+      "type": "Data Component",
+      "name": "T1548.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1548.001.002"
+    }
+  ],
+  "T1548.003": [
+    {
+      "type": "Data Component",
+      "name": "T1548.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1548.003.002"
+    }
+  ],
+  "T1548.006": [
+    {
+      "type": "Data Component",
+      "name": "T1548.006.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1548.006.002"
+    }
+  ],
+  "T1548.005": [
+    {
+      "type": "Data Component",
+      "name": "T1548.005.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1548.005.002"
+    }
+  ],
+  "T1134": [
+    {
+      "type": "Data Component",
+      "name": "T1134.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1134.002"
+    }
+  ],
+  "T1134.002": [
+    {
+      "type": "Data Component",
+      "name": "T1134.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1134.002.002"
+    }
+  ],
+  "T1134.003": [
+    {
+      "type": "Data Component",
+      "name": "T1134.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1134.003.002"
+    }
+  ],
+  "T1134.004": [
+    {
+      "type": "Data Component",
+      "name": "T1134.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1134.004.002"
+    }
+  ],
+  "T1134.005": [
+    {
+      "type": "Data Component",
+      "name": "T1134.005.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1134.005.002"
+    }
+  ],
+  "T1134.001": [
+    {
+      "type": "Data Component",
+      "name": "T1134.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1134.001.002"
+    }
+  ],
+  "T1531": [
+    {
+      "type": "Data Component",
+      "name": "T1531.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1531.002"
+    }
+  ],
+  "T1087": [
+    {
+      "type": "Data Component",
+      "name": "T1087.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1087.002"
+    }
+  ],
+  "T1087.004": [
+    {
+      "type": "Data Component",
+      "name": "T1087.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1087.004.002"
+    }
+  ],
+  "T1087.002": [
+    {
+      "type": "Data Component",
+      "name": "T1087.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1087.002.002"
+    }
+  ],
+  "T1087.003": [
+    {
+      "type": "Data Component",
+      "name": "T1087.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1087.003.002"
+    }
+  ],
+  "T1087.001": [
+    {
+      "type": "Data Component",
+      "name": "T1087.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1087.001.002"
+    }
+  ],
+  "T1098": [
+    {
+      "type": "Data Component",
+      "name": "T1098.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.002"
+    }
+  ],
+  "T1098.001": [
+    {
+      "type": "Data Component",
+      "name": "T1098.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.001.002"
+    }
+  ],
+  "T1098.003": [
+    {
+      "type": "Data Component",
+      "name": "T1098.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.003.002"
+    }
+  ],
+  "T1098.006": [
+    {
+      "type": "Data Component",
+      "name": "T1098.006.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.006.002"
+    }
+  ],
+  "T1098.002": [
+    {
+      "type": "Data Component",
+      "name": "T1098.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.002.002"
+    }
+  ],
+  "T1098.007": [
+    {
+      "type": "Data Component",
+      "name": "T1098.007.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.007.002"
+    }
+  ],
+  "T1098.005": [
+    {
+      "type": "Data Component",
+      "name": "T1098.005.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.005.002"
+    }
+  ],
+  "T1098.004": [
+    {
+      "type": "Data Component",
+      "name": "T1098.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1098.004.002"
+    }
+  ],
+  "T1650": [
+    {
+      "type": "Data Component",
+      "name": "T1650.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1650.002"
+    }
+  ],
+  "T1583": [
+    {
+      "type": "Data Component",
+      "name": "T1583.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.002"
+    }
+  ],
+  "T1583.005": [
+    {
+      "type": "Data Component",
+      "name": "T1583.005.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.005.002"
+    }
+  ],
+  "T1583.002": [
+    {
+      "type": "Data Component",
+      "name": "T1583.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.002.002"
+    }
+  ],
+  "T1583.001": [
+    {
+      "type": "Data Component",
+      "name": "T1583.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.001.002"
+    }
+  ],
+  "T1583.008": [
+    {
+      "type": "Data Component",
+      "name": "T1583.008.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.008.002"
+    }
+  ],
+  "T1583.004": [
+    {
+      "type": "Data Component",
+      "name": "T1583.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.004.002"
+    }
+  ],
+  "T1583.007": [
+    {
+      "type": "Data Component",
+      "name": "T1583.007.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.007.002"
+    }
+  ],
+  "T1583.003": [
+    {
+      "type": "Data Component",
+      "name": "T1583.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.003.002"
+    }
+  ],
+  "T1583.006": [
+    {
+      "type": "Data Component",
+      "name": "T1583.006.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1583.006.002"
+    }
+  ],
+  "T1595": [
+    {
+      "type": "Data Component",
+      "name": "T1595.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1595.002"
+    }
+  ],
+  "T1595.001": [
+    {
+      "type": "Data Component",
+      "name": "T1595.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1595.001.002"
+    }
+  ],
+  "T1595.002": [
+    {
+      "type": "Data Component",
+      "name": "T1595.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1595.002.002"
+    }
+  ],
+  "T1595.003": [
+    {
+      "type": "Data Component",
+      "name": "T1595.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1595.003.002"
+    }
+  ],
+  "T1557": [
+    {
+      "type": "Data Component",
+      "name": "T1557.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1557.002"
+    }
+  ],
+  "T1557.002": [
+    {
+      "type": "Data Component",
+      "name": "T1557.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1557.002.002"
+    }
+  ],
+  "T1557.003": [
+    {
+      "type": "Data Component",
+      "name": "T1557.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1557.003.002"
+    }
+  ],
+  "T1557.004": [
+    {
+      "type": "Data Component",
+      "name": "T1557.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1557.004.002"
+    }
+  ],
+  "T1557.001": [
+    {
+      "type": "Data Component",
+      "name": "T1557.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1557.001.002"
+    }
+  ],
+  "T1071": [
+    {
+      "type": "Data Component",
+      "name": "T1071.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1071.002"
+    }
+  ],
+  "T1071.004": [
+    {
+      "type": "Data Component",
+      "name": "T1071.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1071.004.002"
+    }
+  ],
+  "T1071.002": [
+    {
+      "type": "Data Component",
+      "name": "T1071.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1071.002.002"
+    }
+  ],
+  "T1071.003": [
+    {
+      "type": "Data Component",
+      "name": "T1071.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1071.003.002"
+    }
+  ],
+  "T1071.005": [
+    {
+      "type": "Data Component",
+      "name": "T1071.005.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1071.005.002"
+    }
+  ],
+  "T1071.001": [
+    {
+      "type": "Data Component",
+      "name": "T1071.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1071.001.002"
+    }
+  ],
+  "T1010": [
+    {
+      "type": "Data Component",
+      "name": "T1010.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1010.002"
+    }
+  ],
+  "T1560": [
+    {
+      "type": "Data Component",
+      "name": "T1560.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1560.002"
+    }
+  ],
+  "T1560.003": [
+    {
+      "type": "Data Component",
+      "name": "T1560.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1560.003.002"
+    }
+  ],
+  "T1560.002": [
+    {
+      "type": "Data Component",
+      "name": "T1560.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1560.002.002"
+    }
+  ],
+  "T1560.001": [
+    {
+      "type": "Data Component",
+      "name": "T1560.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1560.001.002"
+    }
+  ],
+  "T1123": [
+    {
+      "type": "Data Component",
+      "name": "T1123.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1123.002"
+    }
+  ],
+  "T1119": [
+    {
+      "type": "Data Component",
+      "name": "T1119.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1119.002"
+    }
+  ],
+  "T1020": [
+    {
+      "type": "Data Component",
+      "name": "T1020.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1020.002"
+    }
+  ],
+  "T1020.001": [
+    {
+      "type": "Data Component",
+      "name": "T1020.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1020.001.002"
+    }
+  ],
+  "T1197": [
+    {
+      "type": "Data Component",
+      "name": "T1197.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1197.002"
+    }
+  ],
+  "T1547": [
+    {
+      "type": "Data Component",
+      "name": "T1547.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.002"
+    }
+  ],
+  "T1547.014": [
+    {
+      "type": "Data Component",
+      "name": "T1547.014.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.014.002"
+    }
+  ],
+  "T1547.002": [
+    {
+      "type": "Data Component",
+      "name": "T1547.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.002.002"
+    }
+  ],
+  "T1547.006": [
+    {
+      "type": "Data Component",
+      "name": "T1547.006.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.006.002"
+    }
+  ],
+  "T1547.008": [
+    {
+      "type": "Data Component",
+      "name": "T1547.008.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.008.002"
+    }
+  ],
+  "T1547.015": [
+    {
+      "type": "Data Component",
+      "name": "T1547.015.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.015.002"
+    }
+  ],
+  "T1547.010": [
+    {
+      "type": "Data Component",
+      "name": "T1547.010.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.010.002"
+    }
+  ],
+  "T1547.012": [
+    {
+      "type": "Data Component",
+      "name": "T1547.012.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.012.002"
+    }
+  ],
+  "T1547.007": [
+    {
+      "type": "Data Component",
+      "name": "T1547.007.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.007.002"
+    }
+  ],
+  "T1547.001": [
+    {
+      "type": "Data Component",
+      "name": "T1547.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.001.002"
+    }
+  ],
+  "T1547.005": [
+    {
+      "type": "Data Component",
+      "name": "T1547.005.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.005.002"
+    }
+  ],
+  "T1547.009": [
+    {
+      "type": "Data Component",
+      "name": "T1547.009.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.009.002"
+    }
+  ],
+  "T1547.003": [
+    {
+      "type": "Data Component",
+      "name": "T1547.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.003.002"
+    }
+  ],
+  "T1547.004": [
+    {
+      "type": "Data Component",
+      "name": "T1547.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.004.002"
+    }
+  ],
+  "T1547.013": [
+    {
+      "type": "Data Component",
+      "name": "T1547.013.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1547.013.002"
+    }
+  ],
+  "T1037": [
+    {
+      "type": "Data Component",
+      "name": "T1037.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1037.002"
+    }
+  ],
+  "T1037.002": [
+    {
+      "type": "Data Component",
+      "name": "T1037.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1037.002.002"
+    }
+  ],
+  "T1037.001": [
+    {
+      "type": "Data Component",
+      "name": "T1037.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1037.001.002"
+    }
+  ],
+  "T1037.003": [
+    {
+      "type": "Data Component",
+      "name": "T1037.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1037.003.002"
+    }
+  ],
+  "T1037.004": [
+    {
+      "type": "Data Component",
+      "name": "T1037.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1037.004.002"
+    }
+  ],
+  "T1037.005": [
+    {
+      "type": "Data Component",
+      "name": "T1037.005.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1037.005.002"
+    }
+  ],
+  "T1217": [
+    {
+      "type": "Data Component",
+      "name": "T1217.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1217.002"
+    }
+  ],
+  "T1185": [
+    {
+      "type": "Data Component",
+      "name": "T1185.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1185.002"
+    }
+  ],
+  "T1110": [
+    {
+      "type": "Data Component",
+      "name": "T1110.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1110.002"
+    }
+  ],
+  "T1110.004": [
+    {
+      "type": "Data Component",
+      "name": "T1110.004.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1110.004.002"
+    }
+  ],
+  "T1110.002": [
+    {
+      "type": "Data Component",
+      "name": "T1110.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1110.002.002"
+    }
+  ],
+  "T1110.001": [
+    {
+      "type": "Data Component",
+      "name": "T1110.001.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1110.001.002"
+    }
+  ],
+  "T1110.003": [
+    {
+      "type": "Data Component",
+      "name": "T1110.003.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1110.003.002"
+    }
+  ],
+  "T1612": [
+    {
+      "type": "Data Component",
+      "name": "T1612.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1612.002"
+    }
+  ],
+  "T1115": [
+    {
+      "type": "Data Component",
+      "name": "T1115.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1115.002"
+    }
+  ],
+  "T1651": [
+    {
+      "type": "Data Component",
+      "name": "T1651.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1651.002"
+    }
+  ],
+  "T1671": [
+    {
+      "type": "Data Component",
+      "name": "T1671.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1671.002"
+    }
+  ],
+  "T1580": [
+    {
+      "type": "Data Component",
+      "name": "T1580.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1580.002"
+    }
+  ],
+  "T1538": [
+    {
+      "type": "Data Component",
+      "name": "T1538.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1538.002"
+    }
+  ],
+  "T1526": [
+    {
+      "type": "Data Component",
+      "name": "T1526.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1526.002"
+    }
+  ],
+  "T1619": [
+    {
+      "type": "Data Component",
+      "name": "T1619.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1619.002"
+    }
+  ],
+  "T1059": [
+    {
+      "type": "Data Component",
+      "name": "T1059.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1059.002"
+    }
+  ],
+  "T1059.002": [
+    {
+      "type": "Data Component",
+      "name": "T1059.002.001"
+    },
+    {
+      "type": "Log Source",
+      "name": "Windows Security"
+    },
+    {
+      "type": "Channel",
+      "name": "Security"
+    },
+    {
+      "type": "Data Component",
+      "name": "T1059.002.002"
+    }
+  ]
+}
